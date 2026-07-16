@@ -1,0 +1,2223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Baladiya Firebase - COMPLETE SYSTEM</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a237e, #283593);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .header h1 {
+            font-size: 28px;
+        }
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        .stats {
+            display: flex;
+            gap: 20px;
+            background: rgba(255,255,255,0.1);
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+        .stats span {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        h2 {
+            color: #1a237e;
+            margin: 25px 0 15px 0;
+            font-size: 1.3rem;
+            border-bottom: 3px solid #e8eaf6;
+            padding-bottom: 10px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+        .card:hover {
+            box-shadow: 0 4px 25px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+        .card h3 {
+            color: #1a237e;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid #e8eaf6;
+            padding-bottom: 10px;
+        }
+        .card h3 .badge {
+            font-size: 11px;
+            background: #e8eaf6;
+            padding: 2px 10px;
+            border-radius: 20px;
+            color: #1a237e;
+        }
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            margin: 6px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #3f51b5;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.1);
+        }
+        button {
+            padding: 10px 16px;
+            margin: 4px 4px 4px 0;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        button.primary {
+            background: #3f51b5;
+        }
+        button.primary:hover {
+            background: #283593;
+        }
+        button.success {
+            background: #43a047;
+        }
+        button.success:hover {
+            background: #2e7d32;
+        }
+        button.danger {
+            background: #e53935;
+        }
+        button.danger:hover {
+            background: #c62828;
+        }
+        button.warning {
+            background: #fb8c00;
+        }
+        button.warning:hover {
+            background: #e65100;
+        }
+        button.google {
+            background: #db4437;
+        }
+        button.google:hover {
+            background: #c62828;
+        }
+        button.info {
+            background: #1e88e5;
+        }
+        button.info:hover {
+            background: #0d47a1;
+        }
+        button.purple {
+            background: #7b1fa2;
+        }
+        button.purple:hover {
+            background: #4a148c;
+        }
+        button.teal {
+            background: #00897b;
+        }
+        button.teal:hover {
+            background: #004d40;
+        }
+        .flex {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .flex input,
+        .flex select {
+            flex: 1;
+            min-width: 100px;
+        }
+        .flex button {
+            flex: 0 0 auto;
+        }
+        .data-list {
+            max-height: 250px;
+            overflow-y: auto;
+            margin-top: 10px;
+            border-radius: 8px;
+            background: #fafafa;
+            padding: 5px;
+        }
+        .data-item {
+            background: white;
+            padding: 10px 14px;
+            margin: 5px 0;
+            border-radius: 6px;
+            border-left: 3px solid #3f51b5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .data-item .meta {
+            color: #999;
+            font-size: 11px;
+        }
+        .data-item .actions button {
+            padding: 4px 10px;
+            font-size: 11px;
+            margin: 0 2px;
+        }
+        .auth-status {
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            background: #f5f5f5;
+        }
+        .auth-status.logged-in {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-left: 4px solid #43a047;
+        }
+        .auth-status.logged-out {
+            background: #f5f5f5;
+            color: #666;
+            border-left: 4px solid #999;
+        }
+        .console-log {
+            background: #1a1a2e;
+            color: #00ff88;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 10px;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+        .console-log .error {
+            color: #ff6b6b;
+        }
+        .console-log .success {
+            color: #51cf66;
+        }
+        .console-log .info {
+            color: #4dabf7;
+        }
+        .console-log .warn {
+            color: #ffd93d;
+        }
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+        }
+        .tabs button {
+            padding: 6px 14px;
+            font-size: 12px;
+            background: #e8eaf6;
+            color: #1a237e;
+        }
+        .tabs button.active {
+            background: #3f51b5;
+            color: white;
+        }
+        .hidden {
+            display: none !important;
+        }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .modal h3 {
+            margin-bottom: 15px;
+        }
+        .modal .close {
+            float: right;
+            background: #e53935;
+            padding: 5px 15px;
+        }
+        .collections-tag {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0;
+        }
+        .collections-tag span {
+            background: #e8eaf6;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #1a237e;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .collections-tag span:hover {
+            background: #3f51b5;
+            color: white;
+            transform: scale(1.05);
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #999;
+        }
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #1a237e;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            z-index: 2000;
+            animation: slideIn 0.5s ease;
+            max-width: 400px;
+        }
+        .toast.success {
+            background: #43a047;
+        }
+        .toast.error {
+            background: #e53935;
+        }
+        .toast.warning {
+            background: #fb8c00;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .stats {
+                margin-top: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .flex {
+                flex-direction: column;
+            }
+            .flex button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <div>
+                <h1>🏬 Baladiya Firebase</h1>
+                <p>Complete System with 10 Collections • Full CRUD • Auth • Storage</p>
+            </div>
+            <div class="stats">
+                <div>📁 <span id="totalCollections">10</span></div>
+                <div>📊 <span id="totalDocs">0</span></div>
+                <div>👤 <span id="userStatus">Offline</span></div>
+            </div>
+        </div>
+
+        <!-- AUTH STATUS -->
+        <div id="authStatus" class="auth-status logged-out">
+            👤 Not logged in
+        </div>
+
+        <!-- COLLECTIONS TAGS -->
+        <div class="collections-tag">
+            <span onclick="switchTab('users')">users</span>
+            <span onclick="switchTab('stores')">stores</span>
+            <span onclick="switchTab('employees')">employees</span>
+            <span onclick="switchTab('visits')">visits</span>
+            <span onclick="switchTab('inventoryVisits')">inventoryVisits</span>
+            <span onclick="switchTab('nightVisits')">nightVisits</span>
+            <span onclick="switchTab('expiryChecks')">expiryChecks</span>
+            <span onclick="switchTab('wastage')">wastage</span>
+            <span onclick="switchTab('reports')">reports</span>
+            <span onclick="switchTab('notifications')">notifications</span>
+        </div>
+
+        <!-- MAIN GRID -->
+        <div class="grid">
+
+            <!-- ==================== AUTH CARD ==================== -->
+            <div class="card">
+                <h3>🔐 Authentication <span class="badge">Full</span></h3>
+                <div class="flex">
+                    <input type="email" id="loginEmail" placeholder="Email" />
+                    <input type="password" id="loginPassword" placeholder="Password" />
+                </div>
+                <div class="flex">
+                    <button onclick="authLogin()" class="primary">Login</button>
+                    <button onclick="authRegister()" class="success">Register</button>
+                    <button onclick="authGoogle()" class="google">Google</button>
+                    <button onclick="authLogout()" class="danger">Logout</button>
+                </div>
+                <div class="flex" style="margin-top:5px;">
+                    <input type="text" id="resetEmail" placeholder="Email for reset" style="flex:2;" />
+                    <button onclick="authResetPassword()" class="warning" style="flex:1;">Reset</button>
+                </div>
+                <div style="margin-top:8px;font-size:13px;color:#666;">
+                    <button onclick="authSendVerification()" class="info" style="padding:5px 12px;font-size:12px;">Verify Email</button>
+                    <button onclick="authGetCurrentUser()" class="info" style="padding:5px 12px;font-size:12px;">Get User</button>
+                </div>
+            </div>
+
+            <!-- ==================== STORES CARD ==================== -->
+            <div class="card">
+                <h3>🏪 Stores <span class="badge">CRUD</span></h3>
+                <div class="flex">
+                    <input type="text" id="storeName" placeholder="Store Name" />
+                    <input type="text" id="storeCity" placeholder="City" />
+                </div>
+                <div class="flex">
+                    <input type="text" id="storeAddress" placeholder="Address" />
+                    <select id="storeStatus">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                        <option value="closed">Closed</option>
+                    </select>
+                </div>
+                <div class="flex">
+                    <button onclick="storeCreate()" class="success">Add Store</button>
+                    <button onclick="storeLoadAll()" class="primary">Load All</button>
+                    <button onclick="storeLoadActive()" class="info">Active Only</button>
+                </div>
+                <div id="storeList" class="data-list">
+                    <div class="loading">No stores loaded</div>
+                </div>
+            </div>
+
+            <!-- ==================== USERS CARD ==================== -->
+            <div class="card">
+                <h3>👤 Users <span class="badge">CRUD</span></h3>
+                <div class="flex">
+                    <input type="text" id="userName" placeholder="Full Name" />
+                    <input type="email" id="userEmail" placeholder="Email" />
+                </div>
+                <div class="flex">
+                    <select id="userRole">
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                        <option value="manager">Manager</option>
+                        <option value="supervisor">Supervisor</option>
+                    </select>
+                    <select id="userStatus2">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                        <option value="suspended">Suspended</option>
+                    </select>
+                </div>
+                <div class="flex">
+                    <button onclick="userCreate()" class="success">Add User</button>
+                    <button onclick="userLoadAll()" class="primary">Load All</button>
+                    <button onclick="userLoadByRole()" class="info">By Role</button>
+                </div>
+                <div id="userList" class="data-list">
+                    <div class="loading">No users loaded</div>
+                </div>
+            </div>
+
+            <!-- ==================== EMPLOYEES CARD ==================== -->
+            <div class="card">
+                <h3>👔 Employees <span class="badge">CRUD</span></h3>
+                <div class="flex">
+                    <input type="text" id="empName" placeholder="Employee Name" />
+                    <input type="text" id="empPosition" placeholder="Position" />
+                </div>
+                <div class="flex">
+                    <input type="text" id="empStoreId" placeholder="Store ID" />
+                    <select id="empStatus">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                        <option value="on-leave">On Leave</option>
+                    </select>
+                </div>
+                <div class="flex">
+                    <button onclick="employeeCreate()" class="success">Add Employee</button>
+                    <button onclick="employeeLoadAll()" class="primary">Load All</button>
+                    <button onclick="employeeLoadByStore()" class="info">By Store</button>
+                </div>
+                <div id="employeeList" class="data-list">
+                    <div class="loading">No employees loaded</div>
+                </div>
+            </div>
+
+            <!-- ==================== VISITS CARD ==================== -->
+            <div class="card">
+                <h3>📋 Visits <span class="badge">CRUD</span></h3>
+                <div class="flex">
+                    <input type="text" id="visitStoreId" placeholder="Store ID" />
+                    <input type="date" id="visitDate" />
+                </div>
+                <div class="flex">
+                    <input type="text" id="visitEmployeeId" placeholder="Employee ID" />
+                    <select id="visitStatus">
+                        <option value="scheduled">Scheduled</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="flex">
+                    <button onclick="visitCreate()" class="success">Add Visit</button>
+                    <button onclick="visitLoadAll()" class="primary">Load All</button>
+                    <button onclick="visitLoadByStore()" class="info">By Store</button>
+                    <button onclick="visitLoadCompleted()" class="teal">Completed</button>
+                </div>
+                <div id="visitList" class="data-list">
+                    <div class="loading">No visits loaded</div>
+                </div>
+            </div>
+
+            <!-- ==================== INVENTORY VISITS CARD ==================== -->
+            <div class="card">
+                <h3>📦 Inventory Visits <span class="badge">CRUD</span></h3>
+                <div class="flex">
+                    <input type="text" id="invStoreId" placeholder="Store ID" />
+                    <input type="text" id="invProductId" placeholder="Product ID" />
+                </div>
+                <div class="flex">
+                    <input type="number" id="invQuantity" placeholder="Quantity" />
+                    <input type="number" id="invThreshold" placeholder="Low Stock Threshold" />
+                </div>
+                <div class="flex">
+                    <button onclick="inventoryCreate()" class="success">Add Inventory</button>
+                    <button onclick="inventoryLoadAll()" class="primary">Load All</button>
+                    <button onclick="inventoryLoadLowStock()" class="warning">Low Stock</button>
+                    <button onclick="inventoryLoadByStore()" class="info">By Store</button>
+                </div>
+                <div id="inventoryList" class="data-list">
+                    <div class="loading">No inventory loaded</div>
+                </div>
+            </div>
+
+            <!-- ==================== NIGHT VISITS CARD ==================== -->
+            <div class="card">
+                <h3>🌙 Night Visits <span class="badge">CRUD</span></h3>
+                <div class="flex">
+                    <input type="text" id="nightStoreId" placeholder="Store ID" />
+                    <input type="text" id="nightGuardId" placeholder="Guard ID" />
+                </div>
+                <div class="flex">
+                    <input type="datetime-local" id="nightTime" />
+                    <input type="text" id="nightNotes" placeholder="Notes" />
+                </div>
+                <div class="flex">
+                    <button onclick="nightCreate()" class="success">Add Night Visit</button>
+                    <button onclick="nightLoadAll()" class="primary">Load All</button>
+                    <button onclick="nightLoadByStore()" class="info">By Store</button>
+                </div>
+                <div id="nightList" class="data-list">
+                    <div class="loading">No night visits loaded</div>
+                </div>
+            </div>
+
+            <!-- ==================== EXPIRY CHECKS CARD ==================== -->
+            <div class="card">
+                <h3>⏰ Expiry Checks <span class="badge">CRUD</span></h3>
+                <div class="flex">
+                    <input type="text" id="expiryStoreId" placeholder="Store ID" />
+                    <input type="text" id="expiryProductId" placeholder="Product ID" />
+                </div>
+                <div class="flex">
+                    <input type="date" id="expiryDate" />
+                    <input type="number" id="expiryDays" placeholder="Days threshold" />
+                </div>
+                <div class="flex">
+                    <button onclick="expiryCreate()" class="success">Add Expiry</button>
+                    <button onclick="expiryLoadAll()" class="primary">Load All</button>
+                    <button onclick="expiryLoadExpiring()" class="warning">Expiring Soon</button>
+                    <button onclick="expiryLoadExpired()" class="danger">Expired</button>
+                </div>
+                <div id="expiryList" class="data-list">
+                    <div class="loading">No expiry checks loaded</div>
+                </div>
+            </div>
+
+            <!-- ==================== WASTAGE CARD ==================== -->
+            <div class="card">
+                <h3>🗑️ Wastage <span class="badge">CRUD</span></h3>
+                <div class="flex">
+                    <input type="text" id="wasteStoreId" placeholder="Store ID" />
+                    <input type="text" id="wasteCategory" placeholder="Category" />
+                </div>
+                <div class="flex">
+                    <input type="number" id="wasteQuantity" placeholder="Quantity" />
+                    <input type="text" id="wasteReason" placeholder="Reason" />
+                </div>
+                <div class="flex">
+                    <button onclick="wastageCreate()" class="success">Add Wastage</button>
+                    <button onclick="wastageLoadAll()" class="primary">Load All</button>
+                    <button onclick="wastageLoadByStore()" class="info">By Store</button>
+                    <button onclick="wastageGetTotal()" class="teal">Get Total</button>
+                </div>
+                <div id="wastageList" class="data-list">
+                    <div class="loading">No wastage loaded</div>
+                </div>
+            </div>
+
+            <!-- ==================== REPORTS CARD ==================== -->
+            <div class="card">
+                <h3>📊 Reports <span class="badge">CRUD</span></h3>
+                <div class="flex">
+                    <input type="text" id="reportTitle" placeholder="Report Title" />
+                    <select id="reportType">
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                        <option value="custom">Custom</option>
+                    </select>
+                </div>
+                <div class="flex">
+                    <input type="text" id="reportStoreId" placeholder="Store ID" />
+                    <select id="reportStatus">
+                        <option value="draft">Draft</option>
+                        <option value="published">Published</option>
+                        <option value="archived">Archived</option>
+                    </select>
+                </div>
+                <div class="flex">
+                    <button onclick="reportCreate()" class="success">Add Report</button>
+                    <button onclick="reportLoadAll()" class="primary">Load All</button>
+                    <button onclick="reportLoadByType()" class="info">By Type</button>
+                    <button onclick="reportLoadByStore()" class="teal">By Store</button>
+                </div>
+                <div id="reportList" class="data-list">
+                    <div class="loading">No reports loaded</div>
+                </div>
+            </div>
+
+            <!-- ==================== NOTIFICATIONS CARD ==================== -->
+            <div class="card">
+                <h3>🔔 Notifications <span class="badge">CRUD</span></h3>
+                <div class="flex">
+                    <input type="text" id="notifUserId" placeholder="User ID" />
+                    <input type="text" id="notifTitle" placeholder="Title" />
+                </div>
+                <div class="flex">
+                    <input type="text" id="notifMessage" placeholder="Message" />
+                    <select id="notifType">
+                        <option value="info">Info</option>
+                        <option value="warning">Warning</option>
+                        <option value="success">Success</option>
+                        <option value="error">Error</option>
+                    </select>
+                </div>
+                <div class="flex">
+                    <button onclick="notificationCreate()" class="success">Add Notification</button>
+                    <button onclick="notificationLoadAll()" class="primary">Load All</button>
+                    <button onclick="notificationLoadUnread()" class="warning">Unread</button>
+                    <button onclick="notificationLoadByUser()" class="info">By User</button>
+                </div>
+                <div id="notificationList" class="data-list">
+                    <div class="loading">No notifications loaded</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ==================== CONSOLE LOG ==================== -->
+        <h2>📋 Console Log</h2>
+        <div id="consoleLog" class="console-log">
+            🚀 Baladiya Firebase System Ready!
+            📁 10 Collections Loaded
+        </div>
+
+        <!-- ==================== FOOTER ==================== -->
+        <div style="text-align:center;margin-top:30px;padding:20px;color:#999;font-size:13px;border-top:1px solid #e8eaf6;">
+            <p>🏬 Baladiya Firebase - Complete System</p>
+            <p style="font-size:11px;">All 10 Collections: users • stores • employees • visits • inventoryVisits • nightVisits • expiryChecks • wastage • reports • notifications</p>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- FIREBASE MODULE -->
+    <!-- ============================================ -->
+    <script type="module">
+        // ============================================
+        // IMPORTS
+        // ============================================
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+        import {
+            getFirestore,
+            collection,
+            doc,
+            addDoc,
+            getDoc,
+            getDocs,
+            updateDoc,
+            deleteDoc,
+            query,
+            where,
+            orderBy,
+            limit,
+            onSnapshot,
+            serverTimestamp,
+            writeBatch,
+            arrayUnion,
+            arrayRemove,
+            increment,
+            setDoc,
+            runTransaction
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import {
+            getAuth,
+            createUserWithEmailAndPassword,
+            signInWithEmailAndPassword,
+            signOut,
+            onAuthStateChanged,
+            sendPasswordResetEmail,
+            updateProfile,
+            sendEmailVerification,
+            GoogleAuthProvider,
+            signInWithPopup,
+            updatePassword,
+            updateEmail,
+            deleteUser,
+            reauthenticateWithCredential,
+            EmailAuthProvider
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import {
+            getStorage,
+            ref,
+            uploadBytes,
+            getDownloadURL,
+            deleteObject,
+            uploadString,
+            uploadBytesResumable,
+            listAll,
+            list,
+            getMetadata,
+            updateMetadata
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
+        // ============================================
+        // CONFIGURATION
+        // ============================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyCi_jSBVhMAMPe5ombV34IV8uzqDZw_JgY",
+            authDomain: "baladiya-d911d.firebaseapp.com",
+            projectId: "baladiya-d911d",
+            storageBucket: "baladiya-d911d.firebasestorage.app",
+            messagingSenderId: "481507584384",
+            appId: "1:481507584384:web:8fd95f261698003699b965",
+            measurementId: "G-FWE7VNCFPJ"
+        };
+
+        // ============================================
+        // INITIALIZE
+        // ============================================
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const storage = getStorage(app);
+
+        // ============================================
+        // COLLECTIONS
+        // ============================================
+        const COLLECTIONS = {
+            USERS: 'users',
+            STORES: 'stores',
+            EMPLOYEES: 'employees',
+            VISITS: 'visits',
+            INVENTORY_VISITS: 'inventoryVisits',
+            NIGHT_VISITS: 'nightVisits',
+            EXPIRY_CHECKS: 'expiryChecks',
+            WASTAGE: 'wastage',
+            REPORTS: 'reports',
+            NOTIFICATIONS: 'notifications'
+        };
+
+        // ============================================
+        // FIREBASE SERVICE
+        // ============================================
+        class FirebaseService {
+            async create(collectionName, data) {
+                try {
+                    const docRef = await addDoc(collection(db, collectionName), {
+                        ...data,
+                        createdAt: serverTimestamp(),
+                        updatedAt: serverTimestamp()
+                    });
+                    return { id: docRef.id, ...data };
+                } catch (error) {
+                    throw error;
+                }
+            }
+
+            async get(collectionName, docId) {
+                try {
+                    const docRef = doc(db, collectionName, docId);
+                    const docSnap = await getDoc(docRef);
+                    if (docSnap.exists()) {
+                        return { id: docSnap.id, ...docSnap.data() };
+                    }
+                    return null;
+                } catch (error) {
+                    throw error;
+                }
+            }
+
+            async getAll(collectionName) {
+                try {
+                    const querySnapshot = await getDocs(collection(db, collectionName));
+                    return querySnapshot.docs.map(doc => ({
+                        id: doc.id,
+                        ...doc.data()
+                    }));
+                } catch (error) {
+                    throw error;
+                }
+            }
+
+            async update(collectionName, docId, data) {
+                try {
+                    const docRef = doc(db, collectionName, docId);
+                    await updateDoc(docRef, {
+                        ...data,
+                        updatedAt: serverTimestamp()
+                    });
+                    return { id: docId, ...data };
+                } catch (error) {
+                    throw error;
+                }
+            }
+
+            async delete(collectionName, docId) {
+                try {
+                    const docRef = doc(db, collectionName, docId);
+                    await deleteDoc(docRef);
+                    return { id: docId, deleted: true };
+                } catch (error) {
+                    throw error;
+                }
+            }
+
+            async query(collectionName, conditions = [], orderByField = null, orderDirection = 'asc', limitCount = null) {
+                try {
+                    let q = collection(db, collectionName);
+                    conditions.forEach(condition => {
+                        q = query(q, where(condition.field, condition.operator, condition.value));
+                    });
+                    if (orderByField) {
+                        q = query(q, orderBy(orderByField, orderDirection));
+                    }
+                    if (limitCount) {
+                        q = query(q, limit(limitCount));
+                    }
+                    const querySnapshot = await getDocs(q);
+                    return querySnapshot.docs.map(doc => ({
+                        id: doc.id,
+                        ...doc.data()
+                    }));
+                } catch (error) {
+                    throw error;
+                }
+            }
+
+            listen(collectionName, callback, conditions = []) {
+                let q = collection(db, collectionName);
+                conditions.forEach(condition => {
+                    q = query(q, where(condition.field, condition.operator, condition.value));
+                });
+                return onSnapshot(q, (snapshot) => {
+                    const documents = snapshot.docs.map(doc => ({
+                        id: doc.id,
+                        ...doc.data()
+                    }));
+                    callback(documents);
+                }, (error) => {
+                    console.error('Listener error:', error);
+                });
+            }
+
+            async batch(operations) {
+                try {
+                    const batch = writeBatch(db);
+                    operations.forEach(op => {
+                        const docRef = doc(db, op.collection, op.id || undefined);
+                        if (op.type === 'set') {
+                            batch.set(docRef, op.data);
+                        } else if (op.type === 'update') {
+                            batch.update(docRef, op.data);
+                        } else if (op.type === 'delete') {
+                            batch.delete(docRef);
+                        }
+                    });
+                    await batch.commit();
+                    return { success: true };
+                } catch (error) {
+                    throw error;
+                }
+            }
+
+            async set(collectionName, docId, data) {
+                try {
+                    const docRef = doc(db, collectionName, docId);
+                    await setDoc(docRef, {
+                        ...data,
+                        createdAt: serverTimestamp(),
+                        updatedAt: serverTimestamp()
+                    });
+                    return { id: docId, ...data };
+                } catch (error) {
+                    throw error;
+                }
+            }
+
+            async increment(collectionName, docId, field, value = 1) {
+                try {
+                    const docRef = doc(db, collectionName, docId);
+                    await updateDoc(docRef, {
+                        [field]: increment(value),
+                        updatedAt: serverTimestamp()
+                    });
+                    return { success: true };
+                } catch (error) {
+                    throw error;
+                }
+            }
+
+            async arrayAdd(collectionName, docId, field, value) {
+                try {
+                    const docRef = doc(db, collectionName, docId);
+                    await updateDoc(docRef, {
+                        [field]: arrayUnion(value),
+                        updatedAt: serverTimestamp()
+                    });
+                    return { success: true };
+                } catch (error) {
+                    throw error;
+                }
+            }
+
+            async arrayRemove(collectionName, docId, field, value) {
+                try {
+                    const docRef = doc(db, collectionName, docId);
+                    await updateDoc(docRef, {
+                        [field]: arrayRemove(value),
+                        updatedAt: serverTimestamp()
+                    });
+                    return { success: true };
+                } catch (error) {
+                    throw error;
+                }
+            }
+
+            async transaction(callback) {
+                try {
+                    return await runTransaction(db, callback);
+                } catch (error) {
+                    throw error;
+                }
+            }
+        }
+
+        const firebaseService = new FirebaseService();
+
+        // ============================================
+        // COLLECTION SERVICES
+        // ============================================
+
+        const UserService = {
+            create: (data) => firebaseService.create(COLLECTIONS.USERS, data),
+            get: (id) => firebaseService.get(COLLECTIONS.USERS, id),
+            getAll: () => firebaseService.getAll(COLLECTIONS.USERS),
+            update: (id, data) => firebaseService.update(COLLECTIONS.USERS, id, data),
+            delete: (id) => firebaseService.delete(COLLECTIONS.USERS, id),
+            query: (conditions) => firebaseService.query(COLLECTIONS.USERS, conditions),
+            listen: (callback, conditions) => firebaseService.listen(COLLECTIONS.USERS, callback, conditions),
+            getByRole: (role) => firebaseService.query(COLLECTIONS.USERS, [{ field: 'role', operator: '==', value: role }]),
+            getByStore: (storeId) => firebaseService.query(COLLECTIONS.USERS, [{ field: 'storeId', operator: '==', value: storeId }]),
+            getActive: () => firebaseService.query(COLLECTIONS.USERS, [{ field: 'status', operator: '==', value: 'active' }])
+        };
+
+        const StoreService = {
+            create: (data) => firebaseService.create(COLLECTIONS.STORES, data),
+            get: (id) => firebaseService.get(COLLECTIONS.STORES, id),
+            getAll: () => firebaseService.getAll(COLLECTIONS.STORES),
+            update: (id, data) => firebaseService.update(COLLECTIONS.STORES, id, data),
+            delete: (id) => firebaseService.delete(COLLECTIONS.STORES, id),
+            query: (conditions) => firebaseService.query(COLLECTIONS.STORES, conditions),
+            listen: (callback, conditions) => firebaseService.listen(COLLECTIONS.STORES, callback, conditions),
+            getActive: () => firebaseService.query(COLLECTIONS.STORES, [{ field: 'status', operator: '==', value: 'active' }]),
+            getByCity: (city) => firebaseService.query(COLLECTIONS.STORES, [{ field: 'city', operator: '==', value: city }])
+        };
+
+        const EmployeeService = {
+            create: (data) => firebaseService.create(COLLECTIONS.EMPLOYEES, data),
+            get: (id) => firebaseService.get(COLLECTIONS.EMPLOYEES, id),
+            getAll: () => firebaseService.getAll(COLLECTIONS.EMPLOYEES),
+            update: (id, data) => firebaseService.update(COLLECTIONS.EMPLOYEES, id, data),
+            delete: (id) => firebaseService.delete(COLLECTIONS.EMPLOYEES, id),
+            query: (conditions) => firebaseService.query(COLLECTIONS.EMPLOYEES, conditions),
+            listen: (callback, conditions) => firebaseService.listen(COLLECTIONS.EMPLOYEES, callback, conditions),
+            getByStore: (storeId) => firebaseService.query(COLLECTIONS.EMPLOYEES, [{ field: 'storeId', operator: '==', value: storeId }]),
+            getActive: () => firebaseService.query(COLLECTIONS.EMPLOYEES, [{ field: 'status', operator: '==', value: 'active' }])
+        };
+
+        const VisitService = {
+            create: (data) => firebaseService.create(COLLECTIONS.VISITS, data),
+            get: (id) => firebaseService.get(COLLECTIONS.VISITS, id),
+            getAll: () => firebaseService.getAll(COLLECTIONS.VISITS),
+            update: (id, data) => firebaseService.update(COLLECTIONS.VISITS, id, data),
+            delete: (id) => firebaseService.delete(COLLECTIONS.VISITS, id),
+            query: (conditions) => firebaseService.query(COLLECTIONS.VISITS, conditions),
+            listen: (callback, conditions) => firebaseService.listen(COLLECTIONS.VISITS, callback, conditions),
+            getByStore: (storeId) => firebaseService.query(COLLECTIONS.VISITS, [{ field: 'storeId', operator: '==', value: storeId }]),
+            getByDate: (date) => firebaseService.query(COLLECTIONS.VISITS, [{ field: 'visitDate', operator: '==', value: date }]),
+            getCompleted: () => firebaseService.query(COLLECTIONS.VISITS, [{ field: 'status', operator: '==', value: 'completed' }])
+        };
+
+        const InventoryVisitService = {
+            create: (data) => firebaseService.create(COLLECTIONS.INVENTORY_VISITS, data),
+            get: (id) => firebaseService.get(COLLECTIONS.INVENTORY_VISITS, id),
+            getAll: () => firebaseService.getAll(COLLECTIONS.INVENTORY_VISITS),
+            update: (id, data) => firebaseService.update(COLLECTIONS.INVENTORY_VISITS, id, data),
+            delete: (id) => firebaseService.delete(COLLECTIONS.INVENTORY_VISITS, id),
+            query: (conditions) => firebaseService.query(COLLECTIONS.INVENTORY_VISITS, conditions),
+            listen: (callback, conditions) => firebaseService.listen(COLLECTIONS.INVENTORY_VISITS, callback, conditions),
+            getByStore: (storeId) => firebaseService.query(COLLECTIONS.INVENTORY_VISITS, [{ field: 'storeId', operator: '==', value: storeId }]),
+            getLowStock: (threshold) => firebaseService.query(COLLECTIONS.INVENTORY_VISITS, [
+                { field: 'quantity', operator: '<=', value: threshold }
+            ])
+        };
+
+        const NightVisitService = {
+            create: (data) => firebaseService.create(COLLECTIONS.NIGHT_VISITS, data),
+            get: (id) => firebaseService.get(COLLECTIONS.NIGHT_VISITS, id),
+            getAll: () => firebaseService.getAll(COLLECTIONS.NIGHT_VISITS),
+            update: (id, data) => firebaseService.update(COLLECTIONS.NIGHT_VISITS, id, data),
+            delete: (id) => firebaseService.delete(COLLECTIONS.NIGHT_VISITS, id),
+            query: (conditions) => firebaseService.query(COLLECTIONS.NIGHT_VISITS, conditions),
+            listen: (callback, conditions) => firebaseService.listen(COLLECTIONS.NIGHT_VISITS, callback, conditions),
+            getByStore: (storeId) => firebaseService.query(COLLECTIONS.NIGHT_VISITS, [{ field: 'storeId', operator: '==', value: storeId }])
+        };
+
+        const ExpiryCheckService = {
+            create: (data) => firebaseService.create(COLLECTIONS.EXPIRY_CHECKS, data),
+            get: (id) => firebaseService.get(COLLECTIONS.EXPIRY_CHECKS, id),
+            getAll: () => firebaseService.getAll(COLLECTIONS.EXPIRY_CHECKS),
+            update: (id, data) => firebaseService.update(COLLECTIONS.EXPIRY_CHECKS, id, data),
+            delete: (id) => firebaseService.delete(COLLECTIONS.EXPIRY_CHECKS, id),
+            query: (conditions) => firebaseService.query(COLLECTIONS.EXPIRY_CHECKS, conditions),
+            listen: (callback, conditions) => firebaseService.listen(COLLECTIONS.EXPIRY_CHECKS, callback, conditions),
+            getByStore: (storeId) => firebaseService.query(COLLECTIONS.EXPIRY_CHECKS, [{ field: 'storeId', operator: '==', value: storeId }]),
+            getExpiringSoon: (days = 30) => {
+                const today = new Date();
+                const future = new Date();
+                future.setDate(future.getDate() + days);
+                return firebaseService.query(COLLECTIONS.EXPIRY_CHECKS, [
+                    { field: 'expiryDate', operator: '>=', value: today.toISOString().split('T')[0] },
+                    { field: 'expiryDate', operator: '<=', value: future.toISOString().split('T')[0] }
+                ]);
+            },
+            getExpired: () => {
+                const today = new Date().toISOString().split('T')[0];
+                return firebaseService.query(COLLECTIONS.EXPIRY_CHECKS, [
+                    { field: 'expiryDate', operator: '<', value: today }
+                ]);
+            }
+        };
+
+        const WastageService = {
+            create: (data) => firebaseService.create(COLLECTIONS.WASTAGE, data),
+            get: (id) => firebaseService.get(COLLECTIONS.WASTAGE, id),
+            getAll: () => firebaseService.getAll(COLLECTIONS.WASTAGE),
+            update: (id, data) => firebaseService.update(COLLECTIONS.WASTAGE, id, data),
+            delete: (id) => firebaseService.delete(COLLECTIONS.WASTAGE, id),
+            query: (conditions) => firebaseService.query(COLLECTIONS.WASTAGE, conditions),
+            listen: (callback, conditions) => firebaseService.listen(COLLECTIONS.WASTAGE, callback, conditions),
+            getByStore: (storeId) => firebaseService.query(COLLECTIONS.WASTAGE, [{ field: 'storeId', operator: '==', value: storeId }]),
+            getTotalWastage: async (storeId) => {
+                const data = await firebaseService.query(COLLECTIONS.WASTAGE, [
+                    { field: 'storeId', operator: '==', value: storeId }
+                ]);
+                return data.reduce((total, item) => total + (item.quantity || 0), 0);
+            }
+        };
+
+        const ReportService = {
+            create: (data) => firebaseService.create(COLLECTIONS.REPORTS, data),
+            get: (id) => firebaseService.get(COLLECTIONS.REPORTS, id),
+            getAll: () => firebaseService.getAll(COLLECTIONS.REPORTS),
+            update: (id, data) => firebaseService.update(COLLECTIONS.REPORTS, id, data),
+            delete: (id) => firebaseService.delete(COLLECTIONS.REPORTS, id),
+            query: (conditions) => firebaseService.query(COLLECTIONS.REPORTS, conditions),
+            listen: (callback, conditions) => firebaseService.listen(COLLECTIONS.REPORTS, callback, conditions),
+            getByType: (type) => firebaseService.query(COLLECTIONS.REPORTS, [{ field: 'type', operator: '==', value: type }]),
+            getByStore: (storeId) => firebaseService.query(COLLECTIONS.REPORTS, [{ field: 'storeId', operator: '==', value: storeId }])
+        };
+
+        const NotificationService = {
+            create: (data) => firebaseService.create(COLLECTIONS.NOTIFICATIONS, data),
+            get: (id) => firebaseService.get(COLLECTIONS.NOTIFICATIONS, id),
+            getAll: () => firebaseService.getAll(COLLECTIONS.NOTIFICATIONS),
+            update: (id, data) => firebaseService.update(COLLECTIONS.NOTIFICATIONS, id, data),
+            delete: (id) => firebaseService.delete(COLLECTIONS.NOTIFICATIONS, id),
+            query: (conditions) => firebaseService.query(COLLECTIONS.NOTIFICATIONS, conditions),
+            listen: (callback, conditions) => firebaseService.listen(COLLECTIONS.NOTIFICATIONS, callback, conditions),
+            getByUser: (userId) => firebaseService.query(COLLECTIONS.NOTIFICATIONS, [{ field: 'userId', operator: '==', value: userId }]),
+            getUnread: (userId) => firebaseService.query(COLLECTIONS.NOTIFICATIONS, [
+                { field: 'userId', operator: '==', value: userId },
+                { field: 'read', operator: '==', value: false }
+            ]),
+            markAsRead: (id) => firebaseService.update(COLLECTIONS.NOTIFICATIONS, id, { read: true }),
+            markAllAsRead: async (userId) => {
+                const notifications = await firebaseService.query(COLLECTIONS.NOTIFICATIONS, [
+                    { field: 'userId', operator: '==', value: userId },
+                    { field: 'read', operator: '==', value: false }
+                ]);
+                const batch = notifications.map(notif => ({
+                    collection: COLLECTIONS.NOTIFICATIONS,
+                    id: notif.id,
+                    type: 'update',
+                    data: { read: true }
+                }));
+                return firebaseService.batch(batch);
+            }
+        };
+
+        // ============================================
+        // AUTH SERVICE
+        // ============================================
+
+        const AuthService = {
+            register: async (email, password, displayName = '') => {
+                try {
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    if (displayName) {
+                        await updateProfile(userCredential.user, { displayName });
+                    }
+                    await sendEmailVerification(userCredential.user);
+                    return userCredential.user;
+                } catch (error) {
+                    throw error;
+                }
+            },
+
+            login: async (email, password) => {
+                try {
+                    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                    return userCredential.user;
+                } catch (error) {
+                    throw error;
+                }
+            },
+
+            logout: async () => {
+                try {
+                    await signOut(auth);
+                } catch (error) {
+                    throw error;
+                }
+            },
+
+            resetPassword: async (email) => {
+                try {
+                    await sendPasswordResetEmail(auth, email);
+                } catch (error) {
+                    throw error;
+                }
+            },
+
+            sendVerificationEmail: async () => {
+                try {
+                    const user = auth.currentUser;
+                    if (user) {
+                        await sendEmailVerification(user);
+                    }
+                } catch (error) {
+                    throw error;
+                }
+            },
+
+            signInWithGoogle: async () => {
+                try {
+                    const provider = new GoogleAuthProvider();
+                    const result = await signInWithPopup(auth, provider);
+                    return result.user;
+                } catch (error) {
+                    throw error;
+                }
+            },
+
+            onAuthStateChange: (callback) => {
+                return onAuthStateChanged(auth, callback);
+            },
+
+            getCurrentUser: () => auth.currentUser,
+            isAuthenticated: () => !!auth.currentUser
+        };
+
+        // ============================================
+        // STORAGE SERVICE
+        // ============================================
+
+        const StorageService = {
+            uploadFile: async (path, file) => {
+                try {
+                    const storageRef = ref(storage, path);
+                    const snapshot = await uploadBytes(storageRef, file);
+                    const downloadURL = await getDownloadURL(snapshot.ref);
+                    return { url: downloadURL, metadata: snapshot.metadata };
+                } catch (error) {
+                    throw error;
+                }
+            },
+
+            getDownloadURL: async (path) => {
+                try {
+                    const storageRef = ref(storage, path);
+                    return await getDownloadURL(storageRef);
+                } catch (error) {
+                    throw error;
+                }
+            },
+
+            deleteFile: async (path) => {
+                try {
+                    const storageRef = ref(storage, path);
+                    await deleteObject(storageRef);
+                } catch (error) {
+                    throw error;
+                }
+            },
+
+            listFiles: async (path) => {
+                try {
+                    const storageRef = ref(storage, path);
+                    const result = await listAll(storageRef);
+                    return {
+                        items: result.items.map(item => item.name),
+                        prefixes: result.prefixes.map(prefix => prefix.name)
+                    };
+                } catch (error) {
+                    throw error;
+                }
+            },
+
+            generateFilePath: (folder, fileName) => {
+                const timestamp = new Date().getTime();
+                const extension = fileName.split('.').pop();
+                const name = fileName.split('.').slice(0, -1).join('.');
+                return `${folder}/${name}_${timestamp}.${extension}`;
+            }
+        };
+
+        // ============================================
+        // EXPOSE TO WINDOW
+        // ============================================
+
+        window.db = db;
+        window.auth = auth;
+        window.storage = storage;
+        window.COLLECTIONS = COLLECTIONS;
+        window.firebaseService = firebaseService;
+        window.UserService = UserService;
+        window.StoreService = StoreService;
+        window.EmployeeService = EmployeeService;
+        window.VisitService = VisitService;
+        window.InventoryVisitService = InventoryVisitService;
+        window.NightVisitService = NightVisitService;
+        window.ExpiryCheckService = ExpiryCheckService;
+        window.WastageService = WastageService;
+        window.ReportService = ReportService;
+        window.NotificationService = NotificationService;
+        window.AuthService = AuthService;
+        window.StorageService = StorageService;
+
+        // ============================================
+        // UI FUNCTIONS
+        // ============================================
+
+        // ---- LOGGING ----
+        function log(message, type = 'info') {
+            const logElement = document.getElementById('consoleLog');
+            const timestamp = new Date().toLocaleTimeString();
+            const className = type === 'error' ? 'error' : type === 'success' ? 'success' : type === 'warn' ? 'warn' : 'info';
+            logElement.innerHTML += `\n[${timestamp}] <span class="${className}">${message}</span>`;
+            logElement.scrollTop = logElement.scrollHeight;
+            console.log(message);
+        }
+
+        window.log = log;
+
+        // ---- TOAST ----
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.5s';
+                setTimeout(() => toast.remove(), 500);
+            }, 3000);
+        }
+
+        window.showToast = showToast;
+
+        // ---- AUTH FUNCTIONS ----
+        window.authLogin = async () => {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            if (!email || !password) {
+                showToast('Please enter email and password', 'warning');
+                return;
+            }
+            try {
+                const user = await AuthService.login(email, password);
+                showToast(`✅ Logged in: ${user.email}`, 'success');
+                log(`✅ Login successful: ${user.email}`, 'success');
+                updateAuthUI(user);
+            } catch (error) {
+                showToast(`❌ ${error.message}`, 'error');
+                log(`❌ Login error: ${error.message}`, 'error');
+            }
+        };
+
+        window.authRegister = async () => {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            if (!email || !password) {
+                showToast('Please enter email and password', 'warning');
+                return;
+            }
+            try {
+                const user = await AuthService.register(email, password);
+                showToast(`✅ Registered: ${user.email}`, 'success');
+                log(`✅ Registration successful: ${user.email}`, 'success');
+                updateAuthUI(user);
+            } catch (error) {
+                showToast(`❌ ${error.message}`, 'error');
+                log(`❌ Registration error: ${error.message}`, 'error');
+            }
+        };
+
+        window.authGoogle = async () => {
+            try {
+                const user = await AuthService.signInWithGoogle();
+                showToast(`✅ Logged in with Google: ${user.displayName || user.email}`, 'success');
+                log(`✅ Google login: ${user.displayName || user.email}`, 'success');
+                updateAuthUI(user);
+            } catch (error) {
+                showToast(`❌ ${error.message}`, 'error');
+                log(`❌ Google error: ${error.message}`, 'error');
+            }
+        };
+
+        window.authLogout = async () => {
+            try {
+                await AuthService.logout();
+                showToast('👤 Logged out', 'info');
+                log('👤 Logged out', 'info');
+                updateAuthUI(null);
+            } catch (error) {
+                showToast(`❌ ${error.message}`, 'error');
+                log(`❌ Logout error: ${error.message}`, 'error');
+            }
+        };
+
+        window.authResetPassword = async () => {
+            const email = document.getElementById('resetEmail').value;
+            if (!email) {
+                showToast('Please enter email', 'warning');
+                return;
+            }
+            try {
+                await AuthService.resetPassword(email);
+                showToast(`✅ Password reset sent to ${email}`, 'success');
+                log(`✅ Password reset: ${email}`, 'success');
+            } catch (error) {
+                showToast(`❌ ${error.message}`, 'error');
+                log(`❌ Reset error: ${error.message}`, 'error');
+            }
+        };
+
+        window.authSendVerification = async () => {
+            try {
+                await AuthService.sendVerificationEmail();
+                showToast('✅ Verification email sent', 'success');
+                log('✅ Verification email sent', 'success');
+            } catch (error) {
+                showToast(`❌ ${error.message}`, 'error');
+                log(`❌ Verification error: ${error.message}`, 'error');
+            }
+        };
+
+        window.authGetCurrentUser = () => {
+            const user = AuthService.getCurrentUser();
+            if (user) {
+                showToast(`👤 ${user.email}`, 'info');
+                log(`👤 Current user: ${user.email}`, 'info');
+            } else {
+                showToast('👤 No user logged in', 'warning');
+                log('👤 No user logged in', 'warn');
+            }
+        };
+
+        function updateAuthUI(user) {
+            const status = document.getElementById('authStatus');
+            const userStatus = document.getElementById('userStatus');
+            if (user) {
+                status.className = 'auth-status logged-in';
+                status.innerHTML = `✅ Logged in as: <strong>${user.email}</strong>`;
+                userStatus.textContent = user.email;
+            } else {
+                status.className = 'auth-status logged-out';
+                status.innerHTML = '👤 Not logged in';
+                userStatus.textContent = 'Offline';
+            }
+        }
+
+        // ---- STORE FUNCTIONS ----
+        window.storeCreate = async () => {
+            const name = document.getElementById('storeName').value;
+            const city = document.getElementById('storeCity').value;
+            const address = document.getElementById('storeAddress').value;
+            const status = document.getElementById('storeStatus').value;
+            if (!name) {
+                showToast('Please enter store name', 'warning');
+                return;
+            }
+            try {
+                const result = await StoreService.create({ name, city, address, status });
+                showToast(`✅ Store added: ${name}`, 'success');
+                log(`✅ Store added: ${name} (${result.id})`, 'success');
+                document.getElementById('storeName').value = '';
+                document.getElementById('storeCity').value = '';
+                document.getElementById('storeAddress').value = '';
+                await storeLoadAll();
+            } catch (error) {
+                showToast(`❌ ${error.message}`, 'error');
+                log(`❌ Store error: ${error.message}`, 'error');
+            }
+        };
+
+        window.storeLoadAll = async () => {
+            try {
+                const data = await StoreService.getAll();
+                renderList('storeList', data, 'store');
+                log(`📊 Loaded ${data.length} stores`, 'info');
+                document.getElementById('totalDocs').textContent = data.length;
+            } catch (error) {
+                log(`❌ Load error: ${error.message}`, 'error');
+            }
+        };
+
+        window.storeLoadActive = async () => {
+            try {
+                const data = await StoreService.getActive();
+                renderList('storeList', data, 'store');
+                log(`📊 Loaded ${data.length} active stores`, 'info');
+            } catch (error) {
+                log(`❌ Load error: ${error.message}`, 'error');
+            }
+        };
+
+        // ---- USER FUNCTIONS ----
+        window.userCreate = async () => {
+            const name = document.getElementById('userName').value;
+            const email = document.getElementById('userEmail').value;
+            const role = document.getElementById('userRole').value;
+            const status = document.getElementById('userStatus2').value;
+            if (!name || !email) {
+                showToast('Please enter name and email', 'warning');
+                return;
+            }
+            try {
+                const result = await UserService.create({ name, email, role, status });
+                showToast(`✅ User added: ${name}`, 'success');
+                log(`✅ User added: ${name} (${result.id})`, 'success');
+                document.getElementById('userName').value = '';
+                document.getElementById('userEmail').value = '';
+                await userLoadAll();
+            } catch (error) {
+                showToast(`❌ ${error.message}`, 'error');
+                log(`❌ User error: ${error.message}`, 'error');
+            }
+        };
+
+        window.userLoadAll = async () => {
+            try {
+                const data = await UserService.getAll();
+                renderList('userList', data, 'user');
+                log(`📊 Loaded ${data.length} users`, 'info');
+            } catch (error) {
+                log(`❌ Load error: ${error.message}`, 'error');
+            }
+        };
+
+        window.userLoadByRole = async () => {
+            const role = document.getElementById('userRole').value;
+            try {
+                const data = await UserService.getByRole(role);
+                renderList('userList', data, 'user');
+                log(`📊 Loaded ${data.length} users with role: ${role}`, 'info');
+            } catch (error) {
+                log(`❌ Load error: ${error.message}`, 'error');
+            }
+        };
+
+        // ---- EMPLOYEE FUNCTIONS ----
+        window.employeeCreate = async () => {
+            const name = document.getElementById('empName').value;
+            const position = document.getElementById('empPosition').value;
+            const storeId = document.getElementById('empStoreId').value;
+            const status = document.getElementById('empStatus').value;
+            if (!name) {
+                showToast('Please enter employee name', 'warning');
+                return;
+            }
+            try {
+                const result = await EmployeeService.create({ name, position, storeId, status });
+                showToast(`✅ Employee added: ${name}`, 'success');
+                log(`✅ Employee added: ${name} (${result.id})`, 'success');
+                document.getElementById('empName').value = '';
+                document.getElementById('empPosition').value = '';
+                document.getElementById('empStoreId').value = '';
+                await employeeLoadAll();
+            } catch (error) {
+                showToast(`❌ ${error.message}`, 'error');
+                log(`❌ Employee error: ${error.message}`, 'error');
+            }
+        };
+
+        window.employeeLoadAll = async () => {
+            try {
+                const data = await EmployeeService.getAll();
+                renderList('employeeList', data, 'employee');
+                log(`📊 Loaded ${data.length} employees`, 'info');
+            } catch (error) {
+                log(`❌ Load error: ${error.message}`, 'error');
+            }
+        };
+
+        window.employeeLoadByStore = async () => {
+            const storeId = document.getElementById('empStoreId').value;
+            if (!storeId) {
+                showToast('Please enter Store ID', 'warning');
+                return;
+            }
+            try {
+                const data = await EmployeeService.getByStore(storeId);
+                renderList('employeeList', data, 'employee');
+                log(`📊 Loaded ${data.length} employees for store: ${storeId}`, 'info');
+            } catch (error) {
+                log(`❌ Load error: ${error.message}`, 'error');
+            }
+        };
+
+        // ---- VISIT FUNCTIONS ----
+        window.visitCreate = async () => {
+            const storeId = document.getElementById('visitStoreId').value;
+            const date = document.getElementById('visitDate').value;
+            const employeeId = document.getElementById('visitEmployeeId').value;
+            const status = document.getElementById('visitStatus').value;
+            if (!storeId || !date) {
+                showToast('Please enter store and date', 'warning');
+                return;
+            }
+            try {
+                const result = await VisitService.create({ storeId, visitDate: date, employeeId, status });
+                showToast(`✅ Visit added`, 'success');
+                log(`✅ Visit added (${result.id})`, 'success');
+                document.getElementById('visitStoreId').value = '';
+                document.getElementById('visitDate').value = '';
+                document.getElementById('visitEmployeeId').value = '';
+                await visitLoadAll();
+            } catch (error) {
+                showToast(`❌ ${error.message}`, 'error');
+                log(`❌ Visit error: ${error.message}`, 'error');
+            }
+        };
+
+        window.visitLoadAll = async () => {
+            try {
+                const data = await VisitService.getAll();
+                renderList('visitList', data, 'visit');
+                log(`📊 Loaded ${data.length} visits`, 'info');
+            } catch (error) {
+                log(`❌ Load error: ${error.message}`, 'error');
+            }
+        };
+
+        window.visitLoadByStore = async () => {
+            const storeId = document.getElementById('visitStoreId').value;
+            if (!storeId) {
+                showToast('Please enter Store ID', 'warning');
+                return;
+            }
+            try {
+                const data = await VisitService.getByStore(storeId);
+                renderList('visitList', data, 'visit');
+                log(`📊 Loaded ${data.length} visits for store: ${storeId}`, 'info');
+            } catch (error) {
+                log(`❌ Load error: ${error.message}`, 'error');
+            }
+        };
+
+        window.visitLoadCompleted = async () => {
+            try {
+                const data = await VisitService.getCompleted();
+                renderList('visitList', data, 'visit');
+                log(`📊 Loaded ${data.length} completed visits`, 'info');
+            } catch (error) {
+                log(`❌ Load error: ${error.message}`, 'error');
+            }
+        };
+
+        // ---- INVENTORY FUNCTIONS ----
+        window.inventoryCreate = async () => {
+            const storeId = document.getElementById('invStoreId').value;
+            const productId = document.getElementById('invProductId').value;
+            const quantity = parseInt(document.getElementById('invQuantity').value);
+            if (!storeId || !productId) {
+                showToast('Please enter store and product', 'warning');
+                return;
+            }
+            try {
+                const result = await InventoryVisitService.create({ storeId, productId, quantity: quantity || 0 });
+                showToast(`✅ Inventory added`, 'success');
+                log(`✅ Inventory added (${result.id})`, 'success');
+                document.getElementById('invStoreId').value = '';
+                document.getElementById('invProductId').value = '';
+                document.getElementById('invQuantity').value = '';
+                await inventoryLoadAll();
+            } catch (error) {
+                showToast(`❌ ${error.message}`, 'error');
+                log(`❌ Inventory error: ${error.message}`, 'error');
+            }
+        };
+
+        window.inventoryLoadAll = async () => {
+            try {
+                const data = await InventoryVisitService.getAll();
+                renderList('inventoryList', data, 'inventory');
+                log(`📊 Loaded ${data.length} inventory items`, 'info');
+            } catch (error) {
+                log(`❌ Load error: ${error.message}`, 'error');
+            }
+        };
+
+        window.inventoryLoadLowStock = async () => {
+            const threshold = parseInt(document.getElementById('invThreshold').value) || 10;
+            try {
+                const data = await InventoryVisitService.getLowStock(threshold);
+                renderList('inventoryList', data, 'inventory');
+                log(`📊 Loaded ${data.length} low stock items (≤ ${threshold})`, 'warn');
+                if (data.length > 0) {
+                    showToast(`⚠️ ${data.length} items low stock`, 'warning');
+                }
+            } catch (error) {
+                log(`❌ Load error: ${error.message}`, 'error');
+            }
+        };
+
+        window.inventoryLoadByStore = async () => {
+            const storeId = document.getElementById('invStoreId').value;
+            if (!storeId) {
+                showToast('Please enter Store ID', 'warning');
+                return;
+            }
+            try {
+                const data = await InventoryVisitService.getByStore(storeId);
+                renderList('inventoryList', data, 'inventory');
+                log(`📊 Loaded ${data.length} inventory items for store: ${storeId}`, 'info');
+            } catch (error) {
+                log(`❌ Load error: ${error.message}`, 'error');
+            }
+        };
+
+        // ---- NIGHT VISIT FUNCTIONS ----
+        window.nightCreate = async () => {
+            const storeId = document.getElementById('nightStoreId').value;
+            const guardId = document.getElementById('nightGuardId').value;
+            const time = document.getElementById('nightTime').value;
+            const notes = document.getElementById('nightNotes').value;
+            if (!storeId || !time) {
+                showToast('Please enter store and time', 'warning');
+                return;
+            }
+            try {
+                const result = await NightVisitService.create({ storeId, guardId, visitTime: time, notes });
+                showToast(`✅ Night visit added`, 'success');
+                log(`✅ Night visit added (${result.id})`, 'success');
+                document.getElementById('nightStoreId').value = '';
+                document.getElementById('nightGuardId').value = '';
+                document.getElementById('nightTime').value = '';
+                document.getElementById('nightNotes').value = '';
+                await nightLoadAll();
+            } catch (error) {
+                showToast(`❌ ${error.message}`, 'error');
+                log(`❌ Night visit error: ${error.message}`, 'error');
+            }
+        };
+
+        window.nightLoadAll = async () => {
+            try {
+                const data = await NightVisitService.getAll();
+                renderList('nightList', data, 'night');
+                log(`📊 Loaded ${data.length} night visits`, 'info');
+            } catch (error) {
+                log(`❌ Load error: ${error.message}`, 'error');
+            }
+        };
+
+        window.nightLoadByStore = async () => {
+            const storeId = document.getElementById('nightStoreId').value;
+            if (!storeId) {
+                showToast('Please enter Store ID', 'warning');
+                return;
+            }
+            try {
+                const data = await NightVisitService.getByStore(storeId);
+                renderList('nightList', data, 'night');
+                log(`📊 Loaded ${data.length} night visits for store: ${storeId}`, 'info');
+            } catch (error) {
+                log(`❌ Load error: ${error.message}`, 'error');
+            }
+        };
+
+        // ---- EXPIRY FUNCTIONS ----
+        window.expiryCreate = async () => {
+            const storeId = document.getElementById('expiryStoreId').value;
+            const productId = document.getElementById('expiryProductId').value;
+            const expiryDate = document.getElementById('expiryDate').value;
+            if (!storeId || !productId || !expiryDate) {
+                showToast('Please enter all fields', 'warning');
+                return;
+            }
+            try {
+                const result = await ExpiryCheckService.create({ storeId, productId, expiryDate });
+                showToast(`✅ Expiry check added`, 'success');
+                log(`✅ Expiry check added (${result.id})`, 'success');
+                document.getElementById('expiryStoreId').value = '';
+                document.getElementById('expiryProductId').value = '';
+                document.getElementById('expiryDate').value = '';
+                await expiryLoadAll();
+            } catch (error) {
+                showToast(`❌ ${error.message}`, 'error');
+                log(`❌ Expiry error: ${error.message}`, 'error');
+            }
+        };
+
+        window.expiryLoadAll = async () => {
+            try {
+                const data = await ExpiryCheckService.getAll();
+                renderList('expiryList', data, 'expiry');
+                log(`📊 Loaded ${data.length} expiry checks`, 'info');
+            } catch (error) {
+                log(`❌ Load error: ${error.message}`, 'error');
+            }
+        };
+
+        window.expiryLoadExpiring = async () => {
+            const days = parseInt(document.getElementById('expiryDays').value) || 30;
+            try {
+                const data = await ExpiryCheckService.getExpiringSoon(days);
+                renderList('expiryList', data, 'expiry');
+                log(`📊 Loaded ${data.length} items expiring in ${days} days`, 'warn');
+                if (data.length > 0) {
+                    showToast(`⚠️ ${data.length} items expiring soon`, 'warning');
+                }
+            } catch (error) {
+                log(`❌ Load error: ${error.message}`, 'error');
+            }
+        };
+
+        window.expiryLoadExpired = async () => {
+            try {
+                const data = await ExpiryCheckService.getExpired();
+                renderList('expiryList', data, 'expiry');
+                log(`📊 Loaded ${data.length} expired items`, 'error');
+                if (data.length > 0) {
+                    showToast(`❌ ${data.length} items expired!`, 'error');
+                }
+            } catch (error) {
+                log(`❌ Load error: ${error.message}`, 'error');
+            }
+        };
+
+        // ---- WASTAGE FUNCTIONS ----
+        window.wastageCreate = async () => {
+            const storeId = document.getElementById('wasteStoreId').value;
+            const category = document.getElementById('wasteCategory').value;
+            const quantity = parseInt(document.getElementById('wasteQuantity').value);
+            const reason = document.getElementById('wasteReason').value;
+            if (!storeId || !category) {
+                showToast('Please enter store and category', 'warning');
+                return;
+            }
+            try {
+                const result = await WastageService.create({ storeId, category, quantity: quantity || 0, reason });
+                showToast(`✅ Wastage added`, 'success');
+                log(`✅ Wastage added (${result.id})`, 'success');
+                document.getElementById('wasteStoreId').value = '';
+                document.getElementById('wasteCategory').value = '';
+                document.getElementById('wasteQuantity').value = '';
+                document.getElementById('wasteReason').value = '';
+                await wastageLoadAll();
+            } catch (error) {
+                showToast(`❌ ${error.message}`, 'error');
+                log(`❌ Wastage error: ${error.message}`, 'error');
+            }
+        };
+
+        window.wastageLoadAll = async () => {
+            try {
+                const data = await WastageService.getAll();
+                renderList('wastageList', data, 'wastage');
+                log(`📊 Loaded ${data.length} wastage records`, 'info');
+            } catch (error) {
+                log(`❌ Load error: ${error.message}`, 'error');
+            }
+        };
+
+        window.wastageLoadByStore = async () => {
+            const storeId = document.getElementById('wasteStoreId').value;
+            if (!storeId) {
+                showToast('Please enter Store ID', 'warning');
+                return;
+            }
+            try {
+                const data = await WastageService.getByStore(storeId);
+                renderList('wastageList', data, 'wastage');
+                log(`📊 Loaded ${data.length} wastage records for store: ${storeId}`, 'info');
+            } catch (error) {
+                log(`❌ Load error: ${error.message}`, 'error');
+            }
+        };
+
+        window.wastageGetTotal = async () => {
+            const storeId = document.getElementById('wasteStoreId').value;
+            if (!storeId) {
+                showToast('Please enter Store ID', 'warning');
+                return;
+            }
+            try {
+                const total = await WastageService.getTotalWastage(storeId);
+                showToast(`📊 Total wastage: ${total} units`, 'info');
+                log(`📊 Total wastage for store ${storeId}: ${total} units`, 'info');
+            } catch (error) {
+                log(`❌ Error: ${error.message}`, 'error');
+            }
+        };
+
+        // ---- REPORT FUNCTIONS ----
+        window.reportCreate = async () => {
+            const title = document.getElementById('reportTitle').value;
+            const type = document.getElementById('reportType').value;
+            const storeId = document.getElementById('reportStoreId').value;
+            const status = document.getElementById('reportStatus').value;
+            if (!title) {
+                showToast('Please enter report title', 'warning');
+                return;
+            }
+            try {
+                const result = await ReportService.create({ title, type, storeId, status });
+                showToast(`✅ Report added`, 'success');
+                log(`✅ Report added (${result.id})`, 'success');
+                document.getElementById('reportTitle').value = '';
+                document.getElementById('reportStoreId').value = '';
+                await reportLoadAll();
+            } catch (error) {
+                showToast(`❌ ${error.message}`, 'error');
+                log(`❌ Report error: ${error.message}`, 'error');
+            }
+        };
+
+        window.reportLoadAll = async () => {
+            try {
+                const data = await ReportService.getAll();
+                renderList('reportList', data, 'report');
+                log(`📊 Loaded ${data.length} reports`, 'info');
+            } catch (error) {
+                log(`❌ Load error: ${error.message}`, 'error');
+            }
+        };
+
+        window.reportLoadByType = async () => {
+            const type = document.getElementById('reportType').value;
+            try {
+                const data = await ReportService.getByType(type);
+                renderList('reportList', data, 'report');
+                log(`📊 Loaded ${data.length} reports of type: ${type}`, 'info');
+            } catch (error) {
+                log(`❌ Load error: ${error.message}`, 'error');
+            }
+        };
+
+        window.reportLoadByStore = async () => {
+            const storeId = document.getElementById('reportStoreId').value;
+            if (!storeId) {
+                showToast('Please enter Store ID', 'warning');
+                return;
+            }
+            try {
+                const data = await ReportService.getByStore(storeId);
+                renderList('reportList', data, 'report');
+                log(`📊 Loaded ${data.length} reports for store: ${storeId}`, 'info');
+            } catch (error) {
+                log(`❌ Load error: ${error.message}`, 'error');
+            }
+        };
+
+        // ---- NOTIFICATION FUNCTIONS ----
+        window.notificationCreate = async () => {
+            const userId = document.getElementById('notifUserId').value;
+            const title = document.getElementById('notifTitle').value;
+            const message = document.getElementById('notifMessage').value;
+            const type = document.getElementById('notifType').value;
+            if (!userId || !title) {
+                showToast('Please enter user and title', 'warning');
+                return;
+            }
+            try {
+                const result = await NotificationService.create({ userId, title, message, type, read: false });
+                showToast(`✅ Notification added`, 'success');
+                log(`✅ Notification added (${result.id})`, 'success');
+                document.getElementById('notifUserId').value = '';
+                document.getElementById('notifTitle').value = '';
+                document.getElementById('notifMessage').value = '';
+                await notificationLoadAll();
+            } catch (error) {
+                showToast(`❌ ${error.message}`, 'error');
+                log(`❌ Notification error: ${error.message}`, 'error');
+            }
+        };
+
+        window.notificationLoadAll = async () => {
+            try {
+                const data = await NotificationService.getAll();
+                renderList('notificationList', data, 'notification');
+                log(`📊 Loaded ${data.length} notifications`, 'info');
+            } catch (error) {
+                log(`❌ Load error: ${error.message}`, 'error');
+            }
+        };
+
+        window.notificationLoadUnread = async () => {
+            const userId = document.getElementById('notifUserId').value;
+            if (!userId) {
+                showToast('Please enter User ID', 'warning');
+                return;
+            }
+            try {
+                const data = await NotificationService.getUnread(userId);
+                renderList('notificationList', data, 'notification');
+                log(`📊 Loaded ${data.length} unread notifications for user: ${userId}`, 'info');
+                if (data.length > 0) {
+                    showToast(`🔔 ${data.length} unread notifications`, 'warning');
+                }
+            } catch (error) {
+                log(`❌ Load error: ${error.message}`, 'error');
+            }
+        };
+
+        window.notificationLoadByUser = async () => {
+            const userId = document.getElementById('notifUserId').value;
+            if (!userId) {
+                showToast('Please enter User ID', 'warning');
+                return;
+            }
+            try {
+                const data = await NotificationService.getByUser(userId);
+                renderList('notificationList', data, 'notification');
+                log(`📊 Loaded ${data.length} notifications for user: ${userId}`, 'info');
+            } catch (error) {
+                log(`❌ Load error: ${error.message}`, 'error');
+            }
+        };
+
+        // ---- RENDER HELPER ----
+        function renderList(elementId, data, type) {
+            const container = document.getElementById(elementId);
+            if (!container) return;
+            
+            if (!data || data.length === 0) {
+                container.innerHTML = '<div class="loading">No items found</div>';
+                return;
+            }
+
+            container.innerHTML = data.slice(0, 20).map(item => {
+                let displayText = '';
+                let metaText = '';
+                
+                switch(type) {
+                    case 'store':
+                        displayText = `${item.name}`;
+                        metaText = `📍 ${item.city || 'N/A'} • ${item.status || 'active'}`;
+                        break;
+                    case 'user':
+                        displayText = `${item.name}`;
+                        metaText = `📧 ${item.email} • ${item.role || 'user'} • ${item.status || 'active'}`;
+                        break;
+                    case 'employee':
+                        displayText = `${item.name}`;
+                        metaText = `💼 ${item.position || 'N/A'} • Store: ${item.storeId || 'N/A'} • ${item.status || 'active'}`;
+                        break;
+                    case 'visit':
+                        displayText = `Visit to ${item.storeId || 'N/A'}`;
+                        metaText = `📅 ${item.visitDate || 'N/A'} • ${item.status || 'scheduled'}`;
+                        break;
+                    case 'inventory':
+                        displayText = `Product: ${item.productId || 'N/A'}`;
+                        metaText = `📦 ${item.quantity || 0} units • Store: ${item.storeId || 'N/A'}`;
+                        break;
+                    case 'night':
+                        displayText = `Night visit to ${item.storeId || 'N/A'}`;
+                        metaText = `🕐 ${item.visitTime || 'N/A'} • Guard: ${item.guardId || 'N/A'}`;
+                        break;
+                    case 'expiry':
+                        displayText = `Product: ${item.productId || 'N/A'}`;
+                        metaText = `⏰ ${item.expiryDate || 'N/A'} • Store: ${item.storeId || 'N/A'}`;
+                        break;
+                    case 'wastage':
+                        displayText = `${item.category || 'N/A'}`;
+                        metaText = `📊 ${item.quantity || 0} units • ${item.reason || 'No reason'}`;
+                        break;
+                    case 'report':
+                        displayText = `${item.title || 'Untitled'}`;
+                        metaText = `📋 ${item.type || 'N/A'} • ${item.status || 'draft'}`;
+                        break;
+                    case 'notification':
+                        displayText = `${item.title || 'Notification'}`;
+                        metaText = `💬 ${item.message || 'N/A'} • ${item.read ? '✅ Read' : '🔔 Unread'}`;
+                        break;
+                    default:
+                        displayText = JSON.stringify(item).substring(0, 50);
+                        metaText = '';
+                }
+
+                return `
+                    <div class="data-item">
+                        <div>
+                            <strong>${displayText}</strong>
+                            <div class="meta">${metaText}</div>
+                        </div>
+                        <div class="actions">
+                            <button onclick="deleteItem('${type}', '${item.id}')" class="danger" style="padding:3px 8px;font-size:10px;">🗑️</button>
+                            <button onclick="viewItem('${type}', '${item.id}')" class="info" style="padding:3px 8px;font-size:10px;">👁️</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ---- DELETE ITEM ----
+        window.deleteItem = async (type, id) => {
+            if (!confirm(`Delete this ${type}?`)) return;
+            try {
+                const services = {
+                    store: StoreService,
+                    user: UserService,
+                    employee: EmployeeService,
+                    visit: VisitService,
+                    inventory: InventoryVisitService,
+                    night: NightVisitService,
+                    expiry: ExpiryCheckService,
+                    wastage: WastageService,
+                    report: ReportService,
+                    notification: NotificationService
+                };
+                const service = services[type];
+                if (service) {
+                    await service.delete(id);
+                    showToast(`✅ ${type} deleted`, 'success');
+                    log(`✅ ${type} ${id} deleted`, 'success');
+                    // Refresh the list
+                    const loadFunctions = {
+                        store: storeLoadAll,
+                        user: userLoadAll,
+                        employee: employeeLoadAll,
+                        visit: visitLoadAll,
+                        inventory: inventoryLoadAll,
+                        night: nightLoadAll,
+                        expiry: expiryLoadAll,
+                        wastage: wastageLoadAll,
+                        report: reportLoadAll,
+                        notification: notificationLoadAll
+                    };
+                    if (loadFunctions[type]) loadFunctions[type]();
+                }
+            } catch (error) {
+                showToast(`❌ ${error.message}`, 'error');
+                log(`❌ Delete error: ${error.message}`, 'error');
+            }
+        };
+
+        // ---- VIEW ITEM ----
+        window.viewItem = async (type, id) => {
+            try {
+                const services = {
+                    store: StoreService,
+                    user: UserService,
+                    employee: EmployeeService,
+                    visit: VisitService,
+                    inventory: InventoryVisitService,
+                    night: NightVisitService,
+                    expiry: ExpiryCheckService,
+                    wastage: WastageService,
+                    report: ReportService,
+                    notification: NotificationService
+                };
+                const service = services[type];
+                if (service) {
+                    const data = await service.get(id);
+                    if (data) {
+                        const json = JSON.stringify(data, null, 2);
+                        alert(`${type.toUpperCase()} Details:\n\n${json}`);
+                        log(`👁️ Viewed ${type}: ${id}`, 'info');
+                    } else {
+                        showToast('Item not found', 'warning');
+                    }
+                }
+            } catch (error) {
+                showToast(`❌ ${error.message}`, 'error');
+                log(`❌ View error: ${error.message}`, 'error');
+            }
+        };
+
+        // ---- SWITCH TAB ----
+        window.switchTab = (collection) => {
+            log(`📁 Switched to: ${collection}`, 'info');
+            showToast(`📁 ${collection}`, 'info');
+            // Scroll to the card
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                const h3 = card.querySelector('h3');
+                if (h3 && h3.textContent.toLowerCase().includes(collection)) {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    card.style.border = '2px solid #3f51b5';
+                    setTimeout(() => card.style.border = 'none', 3000);
+                }
+            });
+        };
+
+        // ---- AUTH STATE LISTENER ----
+        AuthService.onAuthStateChange((user) => {
+            updateAuthUI(user);
+            if (user) {
+                log(`👤 Auth state: ${user.email}`, 'success');
+                // Load data
+                storeLoadAll();
+                userLoadAll();
+                employeeLoadAll();
+                visitLoadAll();
+                inventoryLoadAll();
+                nightLoadAll();
+                expiryLoadAll();
+                wastageLoadAll();
+                reportLoadAll();
+                notificationLoadAll();
+            } else {
+                log('👤 Auth state: Not logged in', 'info');
+            }
+        });
+
+        // ---- INITIAL LOAD ----
+        window.addEventListener('load', () => {
+            log('🚀 Baladiya Firebase COMPLETE System Ready!', 'success');
+            log('📁 10 Collections: users, stores, employees, visits, inventoryVisits, nightVisits, expiryChecks, wastage, reports, notifications', 'info');
+            log('🔐 Authentication: Email/Password, Google, Reset, Verify', 'info');
+            log('💾 Storage: Upload, Download, Delete, List', 'info');
+            log('💡 Click any collection tag to jump to it', 'info');
+            log('📊 All CRUD operations available for each collection', 'info');
+            showToast('🚀 Firebase system ready!', 'success');
+        });
+
+        // Expose to window
+        window.log = log;
+        window.showToast = showToast;
+        window.renderList = renderList;
+        window.updateAuthUI = updateAuthUI;
+
+        console.log('✅ COMPLETE FIREBASE SYSTEM LOADED');
+        console.log('📁 10 Collections:');
+        console.log('  - users, stores, employees, visits');
+        console.log('  - inventoryVisits, nightVisits, expiryChecks');
+        console.log('  - wastage, reports, notifications');
+        console.log('🔐 Auth: Email/Password, Google, Reset, Verify');
+        console.log('💾 Storage: Upload, Download, Delete, List');
+        console.log('📊 All CRUD operations available');
+        console.log('🎯 Click collection tags to jump to them');
+    </script>
+</body>
+</html>
